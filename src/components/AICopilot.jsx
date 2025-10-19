@@ -103,25 +103,25 @@ const AICopilot = () => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40 animate-bounce"
+          className="fixed bottom-4 right-4 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-600 to-blue-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40 animate-bounce"
         >
-          <MessageCircle className="w-8 h-8" />
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+          <MessageCircle className="w-6 h-6 sm:w-8 sm:h-8" />
+          <div className="absolute -top-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded-full border-2 border-white"></div>
         </button>
       )}
 
       {/* Chat window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-gray-900 rounded-2xl shadow-2xl flex flex-col z-50 border-2 border-purple-500">
+        <div className="fixed inset-x-4 bottom-4 sm:inset-x-auto sm:bottom-6 sm:right-6 sm:w-96 h-[calc(100vh-2rem)] sm:h-[600px] bg-gray-900 rounded-2xl shadow-2xl flex flex-col z-50 border-2 border-purple-500">
           {/* Header */}
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-t-2xl flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <Sparkles className="w-6 h-6" />
+          <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-3 sm:p-4 rounded-t-2xl flex items-center justify-between flex-shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center">
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div>
-                <h3 className="font-bold">Copiloto IA</h3>
-                <p className="text-xs text-purple-100">Asistente de Inspección</p>
+                <h3 className="font-bold text-sm sm:text-base">Copiloto IA</h3>
+                <p className="text-xs text-purple-100 hidden sm:block">Asistente de Inspección</p>
               </div>
             </div>
             <button
@@ -133,20 +133,20 @@ const AICopilot = () => {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-900">
+          <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 bg-gray-900">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
                 className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                  className={`max-w-[85%] sm:max-w-[80%] rounded-2xl px-3 py-2 sm:px-4 ${
                     msg.role === 'user'
                       ? 'bg-purple-600 text-white rounded-br-none'
                       : 'bg-gray-800 text-gray-100 rounded-bl-none'
                   }`}
                 >
-                  <p className="text-sm">{msg.content}</p>
+                  <p className="text-xs sm:text-sm leading-relaxed">{msg.content}</p>
                 </div>
               </div>
             ))}
@@ -165,33 +165,33 @@ const AICopilot = () => {
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t border-gray-700 bg-gray-900">
+          <div className="p-3 sm:p-4 border-t border-gray-700 bg-gray-900 flex-shrink-0">
             <div className="flex gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Pregunta sobre la inspección..."
-                className="flex-1 px-4 py-2 rounded-lg bg-gray-800 text-white border-2 border-gray-700 focus:border-purple-500 focus:outline-none placeholder-gray-400"
+                placeholder="Pregunta..."
+                className="flex-1 px-3 py-2 sm:px-4 text-sm sm:text-base rounded-lg bg-gray-800 text-white border-2 border-gray-700 focus:border-purple-500 focus:outline-none placeholder-gray-400"
               />
               <button
                 onClick={handleVoice}
                 disabled={isListening}
-                className={`p-2 rounded-lg ${
+                className={`p-2 rounded-lg flex-shrink-0 ${
                   isListening
                     ? 'bg-red-600 text-white animate-pulse'
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border-2 border-gray-700'
                 }`}
               >
-                {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+                {isListening ? <MicOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Mic className="w-4 h-4 sm:w-5 sm:h-5" />}
               </button>
               <button
                 onClick={handleSend}
                 disabled={!input.trim() || isLoading}
-                className="p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
               >
-                <Send className="w-5 h-5" />
+                <Send className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
           </div>
