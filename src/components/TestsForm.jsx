@@ -15,10 +15,11 @@ const TestsForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">Arranque Manual (Si/No)</label>
             <select
               name="arranqueManual"
-              value={data.arranqueManual || 'Ok'}
+              value={data.arranqueManual || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="Ok">Ok</option>
               <option value="No">No</option>
             </select>
@@ -28,10 +29,11 @@ const TestsForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">Arranque Automático</label>
             <select
               name="arranqueAutomatico"
-              value={data.arranqueAutomatico || 'Ok'}
+              value={data.arranqueAutomatico || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="Ok">Ok</option>
               <option value="No">No</option>
             </select>
@@ -50,10 +52,11 @@ const TestsForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">Fallo de Red Comercial</label>
             <select
               name="falloRedComercial"
-              value={data.falloRedComercial || 'Ok'}
+              value={data.falloRedComercial || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="Ok">Ok</option>
               <option value="No">No</option>
             </select>
@@ -63,10 +66,11 @@ const TestsForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">Generador Operando</label>
             <select
               name="generadorOperando"
-              value={data.generadorOperando || 'Ok'}
+              value={data.generadorOperando || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="Ok">Ok</option>
               <option value="No">No</option>
             </select>
@@ -76,10 +80,11 @@ const TestsForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">Fallo de Generador</label>
             <select
               name="falloGenerador"
-              value={data.falloGenerador || 'No'}
+              value={data.falloGenerador || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="No">No</option>
               <option value="Sí">Sí</option>
             </select>
@@ -89,10 +94,11 @@ const TestsForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">Bajo Nivel de Combustible</label>
             <select
               name="bajoNivelCombustible"
-              value={data.bajoNivelCombustible || 'No'}
+              value={data.bajoNivelCombustible || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="No">No</option>
               <option value="Sí">Sí</option>
             </select>

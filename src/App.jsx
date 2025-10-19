@@ -92,15 +92,19 @@ function App() {
 
   const handleCompleteInspection = () => {
     if (!observaciones.trim()) {
-      alert('Las observaciones son requeridas');
+      alert('❌ Las observaciones son requeridas');
+      return;
+    }
+    if (!nombreCliente.trim()) {
+      alert('❌ El nombre del cliente es requerido');
       return;
     }
     if (!firma) {
-      alert('La firma del cliente es requerida');
+      alert('❌ La firma del cliente es requerida');
       return;
     }
     if (photos.length === 0) {
-      alert('Debes capturar al menos una foto');
+      alert('❌ Debes capturar al menos una foto');
       return;
     }
     
@@ -131,7 +135,7 @@ function App() {
     }
   };
 
-  const isReadyToComplete = observaciones.trim() && firma && photos.length > 0;
+  const isReadyToComplete = observaciones.trim() && nombreCliente.trim() && firma && photos.length > 0;
 
   if (!inspectionStarted) {
     return (
@@ -217,6 +221,7 @@ function App() {
             setObservaciones={setObservaciones}
             iaResult={iaResult}
             setIaResult={setIaResult}
+            allFormData={{...equipmentData, ...measurementsData, ...testsData}}
           />
 
           <SignaturePad

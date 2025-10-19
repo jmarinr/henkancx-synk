@@ -188,12 +188,19 @@ const Camera = ({ photos, onAddPhoto, onRemovePhoto, onOCRData }) => {
           />
         </div>
 
-        <div className="mb-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-700">
-          <div className="flex items-start gap-2">
-            <Scan className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+        <div className="mb-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 rounded-xl border-2 border-blue-300 dark:border-blue-700">
+          <div className="flex items-start gap-3">
+            <Scan className="w-6 h-6 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
             <div className="text-sm">
-              <p className="font-semibold text-green-900 dark:text-green-100">OCR Inteligente Activado</p>
-              <p className="text-green-700 dark:text-green-300">Captura fotos del tablero de control o placas del generador. La IA extraerá automáticamente hodómetro, serie, modelo, voltajes, temperatura, etc.</p>
+              <p className="font-bold text-blue-900 dark:text-blue-100 text-base mb-1">
+                ✨ Extracción Automática de Datos con IA
+              </p>
+              <p className="text-blue-800 dark:text-blue-200">
+                Al cargar cada foto, el sistema OCR intentará extraer automáticamente datos como: hodómetro, números de serie, modelos, marcas, voltajes, temperatura, presión, frecuencia y más.
+              </p>
+              <p className="text-blue-700 dark:text-blue-300 mt-2 font-semibold">
+                📸 Tip: Captura fotos claras de placas de identificación y tableros de control para mejores resultados.
+              </p>
             </div>
           </div>
         </div>

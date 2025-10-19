@@ -180,10 +180,11 @@ const MeasurementsForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">Estado Físico Batería</label>
             <select
               name="estadoBateria"
-              value={data.estadoBateria || 'Bien'}
+              value={data.estadoBateria || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="Bien">Bien</option>
               <option value="Regular">Regular</option>
               <option value="Mal">Mal</option>
@@ -206,10 +207,11 @@ const MeasurementsForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">Estado Bornes</label>
             <select
               name="estadoBornes"
-              value={data.estadoBornes || 'Bien'}
+              value={data.estadoBornes || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="Bien">Bien</option>
               <option value="Regular">Regular</option>
               <option value="Mal">Mal</option>
@@ -220,10 +222,11 @@ const MeasurementsForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">Estado de Cables y Terminales</label>
             <select
               name="estadoCables"
-              value={data.estadoCables || 'Bien'}
+              value={data.estadoCables || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="Bien">Bien</option>
               <option value="Regular">Regular</option>
               <option value="Mal">Mal</option>

@@ -112,7 +112,7 @@ const AICopilot = () => {
 
       {/* Chat window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl flex flex-col z-50 border-2 border-purple-600">
+        <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-gray-900 rounded-2xl shadow-2xl flex flex-col z-50 border-2 border-purple-500">
           {/* Header */}
           <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-4 rounded-t-2xl flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -133,7 +133,7 @@ const AICopilot = () => {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-900">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
@@ -143,7 +143,7 @@ const AICopilot = () => {
                   className={`max-w-[80%] rounded-2xl px-4 py-2 ${
                     msg.role === 'user'
                       ? 'bg-purple-600 text-white rounded-br-none'
-                      : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-bl-none'
+                      : 'bg-gray-800 text-gray-100 rounded-bl-none'
                   }`}
                 >
                   <p className="text-sm">{msg.content}</p>
@@ -152,7 +152,7 @@ const AICopilot = () => {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-bl-none px-4 py-2">
+                <div className="bg-gray-800 rounded-2xl rounded-bl-none px-4 py-2">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -165,7 +165,7 @@ const AICopilot = () => {
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="p-4 border-t border-gray-700 bg-gray-900">
             <div className="flex gap-2">
               <input
                 type="text"
@@ -173,7 +173,7 @@ const AICopilot = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Pregunta sobre la inspección..."
-                className="flex-1 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-purple-600 focus:outline-none"
+                className="flex-1 px-4 py-2 rounded-lg bg-gray-800 text-white border-2 border-gray-700 focus:border-purple-500 focus:outline-none placeholder-gray-400"
               />
               <button
                 onClick={handleVoice}
@@ -181,7 +181,7 @@ const AICopilot = () => {
                 className={`p-2 rounded-lg ${
                   isListening
                     ? 'bg-red-600 text-white animate-pulse'
-                    : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600'
+                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border-2 border-gray-700'
                 }`}
               >
                 {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}

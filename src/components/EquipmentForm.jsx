@@ -155,10 +155,11 @@ const EquipmentForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">¿Tiene Reloj de Ejercicio?</label>
             <select
               name="atsReloj"
-              value={data.atsReloj || 'No'}
+              value={data.atsReloj || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="No">No</option>
               <option value="Sí">Sí</option>
             </select>
@@ -208,10 +209,11 @@ const EquipmentForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">Estado del Tanque</label>
             <select
               name="estadoTanque"
-              value={data.estadoTanque || 'Bien'}
+              value={data.estadoTanque || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="Bien">Bien</option>
               <option value="Regular">Regular</option>
               <option value="Mal">Mal</option>
@@ -222,10 +224,11 @@ const EquipmentForm = ({ data, onChange }) => {
             <label className="block text-sm font-medium mb-1">Estado de Tuberías y Válvulas</label>
             <select
               name="estadoTuberias"
-              value={data.estadoTuberias || 'Bien'}
+              value={data.estadoTuberias || ''}
               onChange={onChange}
               className="input-field"
             >
+              <option value="">Seleccionar</option>
               <option value="Bien">Bien</option>
               <option value="Regular">Regular</option>
               <option value="Mal">Mal</option>
