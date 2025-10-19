@@ -61,6 +61,20 @@ function App() {
     }));
   };
 
+  const handleOCRData = (extractedData) => {
+    // Actualizar equipmentData con datos extraídos del OCR
+    setEquipmentData(prev => ({
+      ...prev,
+      ...extractedData
+    }));
+
+    // También actualizar measurementsData si hay datos relevantes
+    setMeasurementsData(prev => ({
+      ...prev,
+      ...extractedData
+    }));
+  };
+
   const handleMeasurementsChange = (e) => {
     setMeasurementsData(prev => ({
       ...prev,
@@ -179,6 +193,7 @@ function App() {
             photos={photos}
             onAddPhoto={(photo) => setPhotos([...photos, photo])}
             onRemovePhoto={(index) => setPhotos(photos.filter((_, i) => i !== index))}
+            onOCRData={handleOCRData}
           />
 
           <EquipmentForm 
