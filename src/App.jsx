@@ -11,6 +11,7 @@ import TestsForm from './components/TestsForm';
 import ObservationsIA from './components/ObservationsIA';
 import SignaturePad from './components/SignaturePad';
 import InspectionComplete from './components/InspectionComplete';
+import AICopilot from './components/AICopilot';
 import { downloadPDF } from './utils/pdf';
 
 function App() {
@@ -247,6 +248,8 @@ function App() {
           </div>
         </div>
       </main>
+
+      <AICopilot />
     </div>
   );
 }
