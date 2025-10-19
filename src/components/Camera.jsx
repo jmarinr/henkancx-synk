@@ -99,15 +99,19 @@ const Camera = ({ photos, onAddPhoto, onRemovePhoto, onOCRData }) => {
       console.log('Texto OCR completo:', text);
       const extractedData = extractDataFromText(text);
       
-      // Mostrar modal con datos extraídos
-      setPendingOCRData(extractedData);
-      setOcrModalOpen(true);
+      // Solo mostrar modal DESPUÉS de terminar el procesamiento
+      setIsProcessing(false);
+      
+      // Pequeño delay para evitar parpadeo
+      setTimeout(() => {
+        setPendingOCRData(extractedData);
+        setOcrModalOpen(true);
+      }, 100);
       
     } catch (error) {
       console.error('Error OCR:', error);
-      alert('❌ Error al procesar la imagen. Intenta de nuevo.');
-    } finally {
       setIsProcessing(false);
+      alert('❌ Error al procesar la imagen. Intenta de nuevo.');
     }
   };
 
