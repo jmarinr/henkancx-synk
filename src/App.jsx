@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Play, FileDown, Square } from 'lucide-react';
+import { Play, Square, FileDown } from 'lucide-react';
 import Header from './components/Header';
+import InspectionTimer from './components/InspectionTimer';
 import BasicInfoForm from './components/BasicInfoForm';
+import LocationMap from './components/LocationMap';
 import Camera from './components/Camera';
+import EquipmentForm from './components/EquipmentForm';
+import MeasurementsForm from './components/MeasurementsForm';
+import TestsForm from './components/TestsForm';
 import ObservationsIA from './components/ObservationsIA';
 import SignaturePad from './components/SignaturePad';
 import InspectionComplete from './components/InspectionComplete';
@@ -10,9 +15,10 @@ import { downloadPDF } from './utils/pdf';
 
 function App() {
   const [inspectionStarted, setInspectionStarted] = useState(false);
+  const [inspectionStartTime, setInspectionStartTime] = useState(null);
   const [inspectionCompleted, setInspectionCompleted] = useState(false);
   
-  const [formData] = useState({
+  const [basicData] = useState({
     otId: '17662',
     tecnico: 'Andrea Nava',
     cliente: 'Liberty Panamá',
@@ -21,6 +27,11 @@ function App() {
   
   const [location, setLocation] = useState(null);
   const [photos, setPhotos] = useState([]);
+  
+  // Estados de formularios
+  const [equipmentData, setEquipmentData] = useState({});
+  const [measurementsData, setMeasurementsData] = useState({});
+  const [testsData, setTestsData] = useState({});
   const [observaciones, setObservaciones] = useState('');
   const [iaResult, setIaResult] = useState(null);
   const [firma, setFirma] = useState(null);
@@ -40,6 +51,28 @@ function App() {
 
   const handleStartInspection = () => {
     setInspectionStarted(true);
+    setInspectionStartTime(Date.now());
+  };
+
+  const handleEquipmentChange = (e) => {
+    setEquipmentData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleMeasurementsChange = (e) => {
+    setMeasurementsData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleTestsChange = (e) => {
+    setTestsData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
   const handleCompleteInspection = () => {
@@ -60,17 +93,22 @@ function App() {
   };
 
   const handleGeneratePDF = () => {
-    const pdfData = {
-      ...formData,
+    const allData = {
+      ...basicData,
+      ...equipmentData,
+      ...measurementsData,
+      ...testsData,
       ubicacion: location,
       observaciones,
       iaResult,
       photos,
       firma,
       nombreCliente,
+      horaInicio: inspectionStartTime,
+      horaFin: Date.now(),
     };
 
-    const success = downloadPDF(pdfData);
+    const success = downloadPDF(allData);
     if (success) {
       alert('PDF generado exitosamente');
     } else {
@@ -85,7 +123,7 @@ function App() {
       <div className="min-h-screen bg-white dark:bg-gray-900">
         <Header />
         <main className="container mx-auto px-4 py-8 max-w-4xl">
-          <BasicInfoForm formData={formData} location={location} />
+          <BasicInfoForm formData={basicData} location={location} />
           
           <div className="mt-6 card">
             <div className="text-center py-8">
@@ -120,7 +158,7 @@ function App() {
               className="btn btn-primary w-full flex items-center justify-center gap-2 text-lg py-4"
             >
               <FileDown className="w-6 h-6" />
-              Descargar PDF de Inspección
+              Descargar Informe PDF
             </button>
           </div>
         </main>
@@ -131,25 +169,39 @@ function App() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <Header />
+      <InspectionTimer startTime={inspectionStartTime} />
 
       <main className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="space-y-6">
-          <BasicInfoForm formData={formData} location={location} />
+          <LocationMap location={location} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Camera
-              photos={photos}
-              onAddPhoto={(photo) => setPhotos([...photos, photo])}
-              onRemovePhoto={(index) => setPhotos(photos.filter((_, i) => i !== index))}
-            />
+          <Camera
+            photos={photos}
+            onAddPhoto={(photo) => setPhotos([...photos, photo])}
+            onRemovePhoto={(index) => setPhotos(photos.filter((_, i) => i !== index))}
+          />
 
-            <ObservationsIA
-              observaciones={observaciones}
-              setObservaciones={setObservaciones}
-              iaResult={iaResult}
-              setIaResult={setIaResult}
-            />
-          </div>
+          <EquipmentForm 
+            data={equipmentData}
+            onChange={handleEquipmentChange}
+          />
+
+          <MeasurementsForm
+            data={measurementsData}
+            onChange={handleMeasurementsChange}
+          />
+
+          <TestsForm
+            data={testsData}
+            onChange={handleTestsChange}
+          />
+
+          <ObservationsIA
+            observaciones={observaciones}
+            setObservaciones={setObservaciones}
+            iaResult={iaResult}
+            setIaResult={setIaResult}
+          />
 
           <SignaturePad
             firma={firma}
