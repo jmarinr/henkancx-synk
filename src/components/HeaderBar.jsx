@@ -9,11 +9,11 @@ export default function HeaderBar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b shadow-sm">
-      <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="text-sm text-black">
-          <span className="font-semibold">HenkanCX Synk</span>
-          <span className="mx-2 text-gray-400">•</span>
+    <header className="sticky top-0 z-50 w-full bg-white border-b shadow-md">
+      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="text-sm text-black flex items-center gap-2">
+          <span className="font-bold text-lg">HenkanCX Synk</span>
+          <span className="text-gray-400">•</span>
           <span className="text-gray-700">Bienvenido, {tech}</span>
         </div>
         <button
