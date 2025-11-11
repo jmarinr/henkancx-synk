@@ -5,21 +5,22 @@ export default function BasicInfo({ onChange }) {
     try { return JSON.parse(localStorage.getItem('basicInfo') || '{}'); }
     catch { return {}; }
   });
+  const [geoStatus, setGeoStatus] = useState('');
 
+  // Autopopular coordenadas si el navegador lo permite
   useEffect(() => {
-    if ('geolocation' in navigator) {
+    if (!form.coords && 'geolocation' in navigator) {
+      setGeoStatus('Obteniendo ubicación…');
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const { latitude, longitude } = pos.coords;
           const coords = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
-          setForm((f) => {
-            const next = { ...f, coords };
-            localStorage.setItem('basicInfo', JSON.stringify(next));
-            onChange && onChange(next);
-            return next;
-          });
+          update('coords', coords);
+          setGeoStatus('Ubicación capturada');
         },
-        () => {},
+        (err) => {
+          setGeoStatus(`Ubicación no disponible (${err.code})`);
+        },
         { enableHighAccuracy: true, timeout: 8000 }
       );
     }
@@ -56,6 +57,7 @@ export default function BasicInfo({ onChange }) {
         <div>
           <label className="text-sm font-medium">Coordenadas tomadas en sitio</label>
           <input className="w-full border rounded-xl px-3 py-2" value={form.coords || ''} onChange={(e)=>update('coords', e.target.value)} placeholder="lat, lon" />
+          {geoStatus && <p className="text-xs text-gray-500 mt-1">{geoStatus}</p>}
         </div>
         <div>
           <label className="text-sm font-medium">Ingeniero responsable</label>
