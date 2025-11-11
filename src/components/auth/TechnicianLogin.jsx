@@ -1,81 +1,78 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from "react";
 
-/**
- * TechnicianLogin
- * - Identificación de técnico con PIN (configurable via VITE_TECH_PIN).
- * - Guarda: isAuthenticated, technicianId, technicianName en localStorage.
- */
 export default function TechnicianLogin({ onSuccess }) {
-  const [code, setCode] = useState('');
-  const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [tid, setTid] = useState("");
+  const [pin, setPin] = useState("");
+  const [err, setErr] = useState("");
 
-  const VALID_PIN = import.meta.env.VITE_TECH_PIN || '246810';
+  const EXPECTED_PIN = import.meta.env.VITE_TECH_PIN || "246810";
 
-  useEffect(() => {
-    const ok = localStorage.getItem('isAuthenticated') === 'true';
-    if (ok && onSuccess) onSuccess();
-  }, [onSuccess]);
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
-    try {
-      const pin = String(code).trim();
-      if (!pin || pin.length < 4) throw new Error('Código inválido');
-      if (pin !== VALID_PIN) throw new Error('Código incorrecto');
+    setErr("");
 
-      localStorage.setItem('isAuthenticated', 'true');
-      if (name) localStorage.setItem('technicianName', name);
-      localStorage.setItem('technicianId', pin);
-      if (onSuccess) onSuccess();
-    } catch (err) {
-      setError(err.message || 'No se pudo validar el código');
-    } finally {
-      setLoading(false);
+    if (pin !== EXPECTED_PIN) {
+      setErr("PIN incorrecto");
+      return;
     }
+
+    try {
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("technicianName", name || "Técnico");
+      localStorage.setItem("technicianId", tid || "ID-DEFAULT");
+    } catch {}
+
+    if (onSuccess) onSuccess();
+    else window.location.href = "/";
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white/70 backdrop-blur rounded-2xl shadow p-6">
-        <h1 className="text-2xl font-bold mb-1 text-center">Ingreso de Técnico</h1>
-        <p className="text-sm text-gray-600 text-center mb-6">Identifícate para continuar</p>
-
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="w-full max-w-md bg-white border shadow-xl rounded-2xl p-6 space-y-5">
+        <h1 className="text-2xl font-bold text-center">Ingreso de Técnico</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Nombre del técnico (opcional)</label>
+            <label className="text-sm font-medium">Nombre</label>
             <input
               type="text"
-              placeholder="Ej: Juan Pérez"
+              className="w-full border rounded-xl px-3 py-2"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full border rounded-xl px-3 py-2 outline-none focus:ring"
+              placeholder="Ej: Juan Pérez"
             />
           </div>
-
           <div>
-            <label className="block text-sm font-medium mb-1">Código / PIN</label>
+            <label className="text-sm font-medium">ID Técnico</label>
+            <input
+              type="text"
+              className="w-full border rounded-xl px-3 py-2"
+              value={tid}
+              onChange={(e) => setTid(e.target.value)}
+              placeholder="Ej: T-001"
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium">PIN</label>
             <input
               type="password"
-              inputMode="numeric"
+              className="w-full border rounded-xl px-3 py-2"
+              value={pin}
+              onChange={(e) => setPin(e.target.value)}
               placeholder="••••••"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full border rounded-xl px-3 py-2 outline-none focus:ring tracking-widest"
             />
+            <p className="text-xs text-gray-500 mt-1">
+              Usa el PIN <b>{EXPECTED_PIN}</b>
+            </p>
           </div>
 
-          {error && <div className="text-red-600 text-sm">{error}</div>}
+          {err && <div className="text-sm text-red-600">{err}</div>}
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full rounded-xl py-2 font-semibold shadow hover:shadow-md disabled:opacity-50 bg-black text-white"
+            className="w-full bg-black text-white py-2.5 rounded-xl font-semibold hover:bg-gray-900"
           >
-            {loading ? 'Validando…' : 'Entrar'}
+            Entrar
           </button>
         </form>
       </div>
