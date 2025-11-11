@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Square, FileDown } from 'lucide-react';
+import { Play, Square, FileDown, LogOut } from 'lucide-react';
 import Header from './components/Header';
 import InspectionTimer from './components/InspectionTimer';
 import BasicInfoForm from './components/BasicInfoForm';
@@ -12,9 +12,11 @@ import ObservationsIA from './components/ObservationsIA';
 import SignaturePad from './components/SignaturePad';
 import InspectionComplete from './components/InspectionComplete';
 import AICopilot from './components/AICopilot';
+import Login from './components/Login';
 import { downloadPDF } from './utils/pdf';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [inspectionStarted, setInspectionStarted] = useState(false);
   const [inspectionStartTime, setInspectionStartTime] = useState(null);
   const [inspectionCompleted, setInspectionCompleted] = useState(false);
@@ -38,17 +40,42 @@ function App() {
   const [firma, setFirma] = useState(null);
   const [nombreCliente, setNombreCliente] = useState('');
 
+  // Verificar autenticación al cargar
   useEffect(() => {
-    navigator.geolocation?.getCurrentPosition(
-      (position) => {
-        setLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-      },
-      (error) => console.error('GPS error:', error)
-    );
+    const authStatus = localStorage.getItem('isAuthenticated');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
+    }
   }, []);
+
+  // Obtener ubicación
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigator.geolocation?.getCurrentPosition(
+        (position) => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        (error) => console.error('GPS error:', error)
+      );
+    }
+  }, [isAuthenticated]);
+
+  const handleLoginSuccess = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    if (confirm('¿Estás seguro que deseas cerrar sesión?')) {
+      localStorage.removeItem('isAuthenticated');
+      setIsAuthenticated(false);
+      // Resetear estados si es necesario
+      setInspectionStarted(false);
+      setInspectionCompleted(false);
+    }
+  };
 
   const handleStartInspection = () => {
     setInspectionStarted(true);
@@ -137,10 +164,27 @@ function App() {
 
   const isReadyToComplete = observaciones.trim() && nombreCliente.trim() && firma && photos.length > 0;
 
+  // Si no está autenticado, mostrar login
+  if (!isAuthenticated) {
+    return <Login onLoginSuccess={handleLoginSuccess} />;
+  }
+
   if (!inspectionStarted) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900">
         <Header />
+        
+        {/* Botón de Logout */}
+        <div className="container mx-auto px-4 pt-4 max-w-4xl">
+          <button
+            onClick={handleLogout}
+            className="btn btn-secondary flex items-center gap-2 ml-auto"
+          >
+            <LogOut className="w-4 h-4" />
+            Cerrar Sesión
+          </button>
+        </div>
+
         <main className="container mx-auto px-4 py-8 max-w-4xl">
           <BasicInfoForm formData={basicData} location={location} />
           
@@ -178,6 +222,16 @@ function App() {
             >
               <FileDown className="w-6 h-6" />
               Descargar Informe PDF
+            </button>
+          </div>
+
+          <div className="mt-4">
+            <button
+              onClick={handleLogout}
+              className="btn btn-secondary w-full flex items-center justify-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              Cerrar Sesión
             </button>
           </div>
         </main>
