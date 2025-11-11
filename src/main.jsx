@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 
 import HomeMenu from './pages/HomeMenu.jsx';
 import PreventiveMaintenance from './pages/forms/PreventiveMaintenance.jsx';
@@ -10,23 +10,40 @@ import EquipmentInventory from './pages/forms/EquipmentInventory.jsx';
 import SiteGeneralPM from './pages/forms/SiteGeneralPM.jsx';
 import Finalize from './pages/Finalize.jsx';
 import TechnicianLogin from './components/auth/TechnicianLogin.jsx';
+import HeaderBar from './components/HeaderBar.jsx';
 
 import './index.css';
 
-// Ruta protegida por login de técnico (PIN)
-const Protected = ({ children }) => {
+// Layout protegido: si no hay login, muestra TechnicianLogin.
+// Si hay login, muestra Header + contenido (Outlet).
+function ProtectedLayout() {
   const ok = localStorage.getItem('isAuthenticated') === 'true';
-  return ok ? children : <TechnicianLogin onSuccess={() => location.reload()} />;
-};
+  if (!ok) return <TechnicianLogin onSuccess={() => location.reload()} />;
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <HeaderBar />
+      <main className="pt-4">
+        <Outlet />
+      </main>
+    </div>
+  );
+}
 
 const router = createBrowserRouter([
-  { path: '/', element: <Protected><HomeMenu /></Protected> },
-  { path: '/forms/preventive-maintenance', element: <Protected><PreventiveMaintenance /></Protected> },
-  { path: '/forms/ground-measure', element: <Protected><GroundMeasurement /></Protected> },
-  { path: '/forms/tower-infra', element: <Protected><TowerInfrastructure /></Protected> },
-  { path: '/forms/equipment-inventory', element: <Protected><EquipmentInventory /></Protected> },
-  { path: '/forms/site-general-pm', element: <Protected><SiteGeneralPM /></Protected> },
-  { path: '/finalize', element: <Protected><Finalize /></Protected> },
+  {
+    path: '/',
+    element: <ProtectedLayout />,
+    children: [
+      { index: true, element: <HomeMenu /> },
+      { path: 'forms/preventive-maintenance', element: <PreventiveMaintenance /> },
+      { path: 'forms/ground-measure', element: <GroundMeasurement /> },
+      { path: 'forms/tower-infra', element: <TowerInfrastructure /> },
+      { path: 'forms/equipment-inventory', element: <EquipmentInventory /> },
+      { path: 'forms/site-general-pm', element: <SiteGeneralPM /> },
+      { path: 'finalize', element: <Finalize /> },
+    ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
