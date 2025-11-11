@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// Config para GitHub Pages
+// Custom domain en raíz => base '/'
 export default defineConfig({
   plugins: [react()],
-  base: '/henkancx-synk/', // 👈 usa exactamente el nombre del repo
+  base: '/',            // <-- clave para mvp-ot-crm.henkancx.com
   build: { outDir: 'dist' },
 });
