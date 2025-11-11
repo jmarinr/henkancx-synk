@@ -15,16 +15,25 @@ import HeaderBar from './components/HeaderBar.jsx';
 
 import './index.css';
 
-// Layout protegido para TODAS las pantallas autenticadas
+// Layout global para pantallas autenticadas
 function ProtectedLayout() {
   const ok = localStorage.getItem('isAuthenticated') === 'true';
   if (!ok) return <TechnicianLogin onSuccess={() => location.reload()} />;
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Header visible en todas las páginas */}
       <HeaderBar />
-      <main className="pt-4">
+
+      {/* Contenido dinámico */}
+      <main className="flex-1 pt-4 px-2 sm:px-4">
         <Outlet />
       </main>
+
+      {/* Footer opcional */}
+      <footer className="py-3 text-center text-xs text-gray-400">
+        HenkanCX Synk © {new Date().getFullYear()}
+      </footer>
     </div>
   );
 }
