@@ -9,12 +9,12 @@ export default function HeaderBar() {
   };
 
   return (
-    <header className="w-full bg-white/80 backdrop-blur border-b">
+    <header className="sticky top-0 z-50 w-full bg-white border-b shadow-sm">
       <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="text-sm text-gray-700">
+        <div className="text-sm text-black">
           <span className="font-semibold">HenkanCX Synk</span>
-          <span className="mx-2">•</span>
-          <span>Bienvenido, {tech}</span>
+          <span className="mx-2 text-gray-400">•</span>
+          <span className="text-gray-700">Bienvenido, {tech}</span>
         </div>
         <button
           onClick={handleLogout}
