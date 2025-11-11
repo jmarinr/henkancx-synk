@@ -9,17 +9,16 @@ import TowerInfrastructure from './pages/forms/TowerInfrastructure.jsx';
 import EquipmentInventory from './pages/forms/EquipmentInventory.jsx';
 import SiteGeneralPM from './pages/forms/SiteGeneralPM.jsx';
 import Finalize from './pages/Finalize.jsx';
+
 import TechnicianLogin from './components/auth/TechnicianLogin.jsx';
 import HeaderBar from './components/HeaderBar.jsx';
 
 import './index.css';
 
-// Layout protegido: si no hay login, muestra TechnicianLogin.
-// Si hay login, muestra Header + contenido (Outlet).
+// Layout protegido para TODAS las pantallas autenticadas
 function ProtectedLayout() {
   const ok = localStorage.getItem('isAuthenticated') === 'true';
   if (!ok) return <TechnicianLogin onSuccess={() => location.reload()} />;
-
   return (
     <div className="min-h-screen bg-gray-50">
       <HeaderBar />
