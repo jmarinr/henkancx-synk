@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Wizard from '../../components/wizard/Wizard';
 import PhotoField from '../../components/PhotoField';
 import BasicInfo from '../../components/BasicInfo';
+import FormNav from '../../components/FormNav.jsx';
+
 
 export default function PreventiveMaintenance() {
   const [step, setStep] = useState(0);
@@ -69,4 +71,8 @@ export default function PreventiveMaintenance() {
       )}
     </div>
   );
+  <FormNav step={step} setStep={setStep} totalSteps={3} onSave={()=>{
+  // persistencias mínimas si hiciera falta; ya guardas pmData por useEffect
+}} />
+
 }
