@@ -10,48 +10,6 @@
     <title>HenkanCX Synk - MVP</title>
   </head>
   <body>
-    <!-- Header estático de emergencia (siempre visible cuando hay sesión) -->
-<style>
-  #staticHeader{position:sticky;top:0;z-index:999;background:#fff;border-bottom:1px solid #e5e7eb;box-shadow:0 1px 2px rgba(0,0,0,.05);}
-  #staticHeader .wrap{max-width:1080px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
-  #staticHeader .brand{font-weight:700;color:#111827}
-  #staticHeader .muted{color:#6b7280}
-  #staticHeader button{background:#dc2626;color:#fff;border:none;border-radius:12px;padding:6px 12px;cursor:pointer}
-  #staticHeader button:hover{background:#b91c1c}
-</style>
-<header id="staticHeader" style="display:none">
-  <div class="wrap">
-    <div><span class="brand">HenkanCX Synk</span> <span class="muted">•</span> <span class="muted">Bienvenido, <span id="techName">Técnico</span></span></div>
-    <button id="logoutBtn" type="button">Cerrar sesión</button>
-  </div>
-</header>
-    <script>
-  (function(){
-    function syncHeader(){
-      var ok = localStorage.getItem('isAuthenticated') === 'true';
-      var h = document.getElementById('staticHeader');
-      if(!h) return;
-      h.style.display = ok ? 'block' : 'none';
-      var name = localStorage.getItem('technicianName') || 'Técnico';
-      var span = document.getElementById('techName');
-      if(span) span.textContent = name;
-    }
-    document.addEventListener('DOMContentLoaded', function(){
-      syncHeader();
-      var btn = document.getElementById('logoutBtn');
-      if(btn){
-        btn.addEventListener('click', function(){
-          try { localStorage.clear(); } catch(e){}
-          // Redirige a raíz (ajústalo si usas subpath)
-          window.location.href = '/';
-        });
-      }
-    });
-    window.addEventListener('storage', syncHeader);
-  })();
-</script>
-
-
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
